@@ -37,9 +37,13 @@ class TransactionsRepository {
   }
 
   private getTotal(type: string): number {
-    return this.transactions
-      .filter(transaction => transaction.type === type)
-      .reduce((acc, item) => acc + item.value, 0);
+    return this.transactions.reduce((total, item) => {
+      if (item.type === type) {
+        return total + item.value;
+      }
+
+      return total;
+    }, 0);
   }
 
   public create({ title, value, type }: CreateTransactionDTO): Transaction {
